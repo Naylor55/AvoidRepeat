@@ -1,7 +1,12 @@
-package com.naylor.springboot.avoidrepeat.Interceptor;
+package com.naylor.springboot.avoidrepeat.aop;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.naylor.springboot.avoidrepeat.constant.AvoidRepeatPrefix;
+import com.naylor.springboot.avoidrepeat.constant.ResponseCode;
 import com.naylor.springboot.avoidrepeat.domain.repeat.service.RepeatTokenService;
+import com.naylor.springboot.avoidrepeat.exception.RepeatException;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,23 +27,22 @@ public class ApiIdempotentPointcut {
     }
 
     @Around("ApiIdempotentAspect()")
-    public void methodAround(ProceedingJoinPoint point) throws Exception {
+    public void methodAround(ProceedingJoinPoint point)  {
         String typeName = point.getSignature().getDeclaringTypeName();
         String methodName = point.getSignature().getName();
         String methodFullName = typeName + "." + methodName;
-        Object[] args = point.getArgs();
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(args);
+        String argsJson = JSON.toJSONString(point.getArgs(), SerializerFeature.WriteClassName);
+        String json = argsJson.replaceAll("\"", "");
         String token = methodFullName + json;
-        if (repeatTokenService.checkToken(token)) {
-            //重复请求
-            String tips="Request Is Repeat";
-            System.out.println(tips);
+        System.out.println("Token is :" + token);
+        if (repeatTokenService.checkToken(AvoidRepeatPrefix.Avoid_Repeat_User + token)) {
+            // 重复请求
+            throw new RepeatException(ResponseCode.REPETITIVE_OPERATION);
         } else {
-            //正常请求
-            String tips="Request Is Regular";
+            // 正常请求
+            String tips = "Request Is Normal";
             System.out.println(tips);
-            repeatTokenService.createToken(token);
+            repeatTokenService.createToken(AvoidRepeatPrefix.Avoid_Repeat_User +token);
         }
     }
 

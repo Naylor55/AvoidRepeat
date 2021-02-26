@@ -17,29 +17,24 @@ import io.swagger.annotations.Api;
 
 @Api(tags = "防止重复提交")
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/repeat")
 public class RepeatTokenController {
 
-    @Autowired
-    RepeatTokenService tokenService;
 
-    /**
-     * 生成一个 token
-     * @return
-     */
-    @GetMapping
-    public Response token(){
-        return tokenService.createToken();
-    }
+
 
     /**
      * 检查 token 是否存在
      * @param request
      * @return
      */
-    @PostMapping("/verification")
-    public Response checktoken(HttpServletRequest request){
-        return tokenService.checkToken(request);
+    @ApiIdempotent
+    @PostMapping("/verify")
+    public Response checktoken(@RequestBody User user){
+        Response response=new Response();
+        response.setStatus(1);
+        response.setMsg("成功");
+        return response;
     }
 
    

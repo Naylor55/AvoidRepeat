@@ -1,4 +1,4 @@
-package com.naylor.springboot.avoidrepeat.Interceptor;
+package com.naylor.springboot.avoidrepeat.aop;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

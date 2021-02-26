@@ -1,6 +1,6 @@
 package com.naylor.springboot.avoidrepeat.domain.user.controller;
 
-import com.naylor.springboot.avoidrepeat.Interceptor.ApiIdempotent;
+import com.naylor.springboot.avoidrepeat.aop.ApiIdempotent;
 import com.naylor.springboot.avoidrepeat.dto.Response;
 import com.naylor.springboot.avoidrepeat.dto.User;
 
@@ -16,17 +16,14 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    
-    @GetMapping("/")
-    public Response getUser() {
-        User user = new User();
-        user.setId(1).setName("cml");
-        return new Response(5, "get-ok", user);
-    }
+
+
 
     @ApiIdempotent
     @PostMapping("/")
     public Response CreateUser(@RequestBody User user) {
-        return new Response(5, "create-ok", null);
+        Response response = new Response();
+        response.setStatus(5).setMsg("create-ok");
+        return response;
     }
 }
