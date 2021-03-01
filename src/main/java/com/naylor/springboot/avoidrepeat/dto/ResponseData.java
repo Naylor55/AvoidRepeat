@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+public class ResponseData {
     private int status;
     private String msg;
     private Object data;

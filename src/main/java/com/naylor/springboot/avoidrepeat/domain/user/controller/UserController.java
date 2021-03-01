@@ -1,7 +1,7 @@
 package com.naylor.springboot.avoidrepeat.domain.user.controller;
 
 import com.naylor.springboot.avoidrepeat.aop.ApiIdempotent;
-import com.naylor.springboot.avoidrepeat.dto.Response;
+import com.naylor.springboot.avoidrepeat.dto.ResponseData;
 import com.naylor.springboot.avoidrepeat.dto.User;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +21,9 @@ public class UserController {
 
     @ApiIdempotent
     @PostMapping("/")
-    public Response CreateUser(@RequestBody User user) {
-        Response response = new Response();
-        response.setStatus(5).setMsg("create-ok");
-        return response;
+    public User createUser(@RequestBody User user) {
+        user.setId(user.getId()+1);
+        user.setName(user.getName() + user.getId());
+        return user;
     }
 }

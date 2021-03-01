@@ -20,7 +20,7 @@ public class RepeatTokenServiceImpl implements RepeatTokenService {
      */
     @Override
     public void createToken(String key) {        
-        redisTemplate.opsForValue().set(key,key,3,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key,key,1,TimeUnit.SECONDS);
     }
     
     @Override
