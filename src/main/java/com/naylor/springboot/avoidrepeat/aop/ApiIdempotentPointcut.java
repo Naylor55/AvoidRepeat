@@ -2,7 +2,6 @@ package com.naylor.springboot.avoidrepeat.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.naylor.springboot.avoidrepeat.constant.AvoidRepeatPrefix;
 import com.naylor.springboot.avoidrepeat.constant.ResponseCode;
 import com.naylor.springboot.avoidrepeat.domain.repeat.service.RepeatTokenService;
