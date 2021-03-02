@@ -23,7 +23,4 @@ public class RepeatException extends RuntimeException {
 
     private Integer code;
     private String msg;
-
-
-
 }
